@@ -5,10 +5,10 @@ export default class TextArea extends React.Component{
     super(props);
   }
   render(){
+    let {...other} = this.props
     return(
       <textarea
-        defaultValue={this.props.defaultValue}
-        onChange={this.props.onChange}
+        {...other}
       />
     )
   }

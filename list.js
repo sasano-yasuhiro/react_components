@@ -6,10 +6,9 @@ export default class SelectBox extends React.Component{
   }
   render(){
     let i=0
+    let {...other} = this.props
     return(
-      <select
-        onChange={this.props.onChange}
-      >
+      <select {...other}>
         {this.props.items && 
           this.props.items.map((item)=>{
             return <option key={i++} value={item}>{item}</option>
