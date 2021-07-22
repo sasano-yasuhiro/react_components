@@ -1,0 +1,14 @@
+.tab{
+  display: flex;
+  &_headers{
+    display: flex;
+    &_title{
+      border: solid;
+      border-width: 1px;
+    }
+  }
+  &_panel{
+    border: solid;
+    border-width: 1px;
+  }
+}
