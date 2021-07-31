@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './tree.scss'
+
 export default class Tree extends React.Component{
   constructor(props){
     super(props);
@@ -7,8 +9,10 @@ export default class Tree extends React.Component{
     }
   }
   render(){
+    let className = this.props.className?this.props.className + " ":""
     return(
       <TreeItem
+        className={className+"tree"}
         depth={0}
         capsule={true}
         items={this.props.items}
@@ -31,39 +35,35 @@ class TreeItem extends React.Component{
       return this.props.capsule;
   }
   get_list(items){
-    return Object.keys(this.props.items)
+    let list = Object.keys(items)
+    return list.filter(i => i != 'file')
   }
   onClick(e){
-    console.log(e.target)
-    this.setState({capsule: !this.state.capsule})
+    if(this.props.depth != 0){
+      this.setState({capsule: !this.state.capsule})
+    }
   }
   render(){
     let key=0
     let className = this.props.className?this.props.className + " ":""
     return(
-      <div className={className+"tree"}>
+      <div hidden={this.isCapsule()}>
+        <div onClick={this.onClick.bind(this)}>
+          {"+".repeat(this.props.depth)}
+          {this.props.label}
+        </div>
         {this.get_list(this.props.items).map((item)=>{
           return(
-            <div key={key++}>
-              {item != 'file' &&
-                <div
-                  id={item}
-                  items={this.props.items[item]}
-                  onClick={this.onClick.bind(this)}
-                  hidden={this.isCapsule()}
-                >
-                  {"+".repeat(this.props.depth)}
-                  {item}
-                  <TreeItem
-                    depth={this.props.depth + 1}
-                    capsule={this.state.capsule}
-                    items={this.props.items[item]}
-                  />
-                </div>
-              }
-            </div>
-          )
-        })}
+            <TreeItem
+              key={this.props.depth + "_" + key++}
+              className={className+"tree_item"}
+              depth={this.props.depth + 1}
+              capsule={this.state.capsule}
+              items={this.props.items[item]}
+              label={item}
+            />
+          )})
+        }
       </div>
     )
   }
